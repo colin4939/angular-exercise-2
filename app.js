@@ -29,22 +29,6 @@ app.factory('posts', [function(){
     return o;
 }]);
 
-app.controller('PostsCtrl',[
-    '$scope',
-    '$stateParams',
-    'posts',//injecting the service
-    function($scope, $stateParams, posts){
-        $scope.post = posts.posts[$stateParams.id];
-        $scope.addComment = function(){
-            if($scope.body === '') { return; }
-            $scope.post.comments.push({
-                body: $scope.body,
-                author: 'user',
-                upvotes: 0
-            });
-            $scope.body = '';
-        };
-}]);
 
 app.controller('MainCtrl', [
     '$scope',
@@ -80,4 +64,28 @@ app.controller('MainCtrl', [
     	post.upvotes += 1;
     };
     
+}]);
+
+app.controller('PostsCtrl',[
+    '$scope',
+    '$stateParams',
+    'posts',
+    
+    function($scope, $stateParams, posts){
+        $scope.post=posts.posts[$stateParams.id];
+    //creating new comments
+        $scope.addComment = function(){
+            if($scope.body === '') {return;}
+            $scope.post.comments.push({
+                body: $scope.body,
+                author: 'user',
+                upvotes: 0
+            });
+            $scope.body = '';
+        };
+        
+        $scope.incrementUpvotes = function(post){
+    	post.upvotes += 1;
+        };
+        
 }]);
